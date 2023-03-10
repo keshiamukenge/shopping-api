@@ -18,4 +18,16 @@ export default class ShopingController {
 		const data = await response.json();
 		res.send(data);
 	}
+
+	async sendCheckout(req, res) {
+		const response = await fetch('https://microservice-api-knl.vercel.app/api/order', {
+			method: 'POST',
+			body: JSON.stringify(req.body),
+			headers: {
+				'Content-Type': 'application/json'
+			},
+		});
+		const data = await response.json();
+		res.send(data);
+	}
 }

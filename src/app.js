@@ -28,6 +28,7 @@ class App {
 					<li><code>/stock</code></li>
 					<li><code>/products</code></li>
 					<li><code>/products/id</code></li>
+					<li><code>/basket/checkout</code></li>
 				</ul>
 			`)
 		})
@@ -46,6 +47,10 @@ class App {
 
 		this.app.get('/api/stock', (req, res) => {
 			this.shopingController.getStock(req, res);
+		})
+
+		this.app.get('/api/basket/checkout', (req, res) => {
+			this.shopingController.sendCheckout(req, res);
 		})
 	}
 
