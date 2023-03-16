@@ -8,19 +8,22 @@ export default class ShopingController {
 	async getStock(req, res) {
 		const response = await fetch('https://microservices.valentin-magry.fr/api/stock');
 		const data = await response.json();
+
 		res.send(data);
 	}
 
 	async getProducts(req, res) {
 		const response = await fetch('http://microservices.tp.rjqu8633.odns.fr/api/products');
 		const data = await response.json();
+
 		res.send(data);
 	}
 
-	async getProduct(id) {
+	async getProduct(id, res) {
 		const response = await fetch(`http://microservices.tp.rjqu8633.odns.fr/api/products/${id}`);
-		const data = await response.json();
-		return data;
+		const product = await response.json();
+		
+		return product;
 	}
 
 	async sendCheckout(req, res) {
@@ -52,7 +55,7 @@ export default class ShopingController {
 	async addProductToBasket(req, res) {
 		const product = await this.getProduct(req.body.id, res);
 
-		if(!product._id) {
+		if(!product?._id) {
 			res.status(400);
 			res.send();
 
