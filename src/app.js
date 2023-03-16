@@ -60,6 +60,10 @@ class App {
 		this.app.put('/api/basket', (req, res) => {
 			this.shopingController.addProductToBasket(req, res);
 		})
+
+		this.app.get('/api/basket', (req, res) => {
+			this.shopingController.getBasket(req, res);
+		})
 	}
 
 	listen() {

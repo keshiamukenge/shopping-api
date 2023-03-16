@@ -45,16 +45,20 @@ export default class ShopingController {
 		}
 
 		for(let i = 0; i < req.body.quantity; i++) {
-			this.cart.push(product);
+			this.cart.push({
+				id: product._id,
+				name: product.name,
+				description: product.description,
+				unitPrice: product.ean,
+				quantity: 1
+			});
 		}
 
 		res.status(204);
 		res.send();
 	}
-
-
-
-
-
 	
+	async getBasket(req, res) {
+		res.send(this.cart);
+	}
 }
