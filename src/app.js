@@ -32,6 +32,7 @@ class App {
 					<li><code>[GET] /products</code></li>
 					<li><code>[GET] /products/id</code></li>
 					<li><code>[PUT] /basket</code></li>
+					<li><code>[GET] /basket</code></li>
 					<li><code>[POST] /basket/checkout</code></li>
 				</ul>
 			`)
@@ -53,7 +54,7 @@ class App {
 			this.shopingController.getStock(req, res);
 		})
 
-		this.app.get('/api/basket/checkout', (req, res) => {
+		this.app.post('/api/basket/checkout', (req, res) => {
 			this.shopingController.sendCheckout(req, res);
 		})
 
@@ -68,7 +69,7 @@ class App {
 
 	listen() {
 		app.listen(this.port, () => {
-			console.log(`App listening on port ${this.port}`)
+			console.log(`App listening on port ${this.port}`);
 		})
 	}
 }

@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 export default class ShopingController {
 	constructor() {
 		this.cart = []
+		this.ordersId = [];
 	}
 	
 	async getStock(req, res) {
@@ -19,19 +20,33 @@ export default class ShopingController {
 	async getProduct(id) {
 		const response = await fetch(`http://microservices.tp.rjqu8633.odns.fr/api/products/${id}`);
 		const data = await response.json();
-		return data
+		return data;
 	}
 
 	async sendCheckout(req, res) {
+		if(this.cart.length === 0) {
+			res.status(400);
+			res.send();
+
+			return;
+		};
+
 		const response = await fetch('https://microservice-api-knl.vercel.app/api/order', {
 			method: 'POST',
-			body: JSON.stringify(req.body),
+			body: JSON.stringify(this.cart),
 			headers: {
 				'Content-Type': 'application/json'
 			},
 		});
-		const data = await response.json();
-		res.send(data);
+
+		if(response.status === 200) {
+			const data = await response.json();
+			this.ordersId.push(data?.id);
+			res.send(JSON.stringify(this.ordersId));
+
+			this.cart = [];
+		}
+
 	}
 
 	async addProductToBasket(req, res) {
