@@ -1,6 +1,9 @@
 import fetch from 'node-fetch';
-
 export default class ShopingController {
+	constructor() {
+		this.cart = []
+	}
+	
 	async getStock(req, res) {
 		const response = await fetch('https://microservices.valentin-magry.fr/api/stock');
 		const data = await response.json();
@@ -13,10 +16,10 @@ export default class ShopingController {
 		res.send(data);
 	}
 
-	async getProduct(req, res) {
-		const response = await fetch(`http://microservices.tp.rjqu8633.odns.fr/api/products/${req.params.id}`);
+	async getProduct(id) {
+		const response = await fetch(`http://microservices.tp.rjqu8633.odns.fr/api/products/${id}`);
 		const data = await response.json();
-		res.send(data);
+		return data
 	}
 
 	async sendCheckout(req, res) {
@@ -30,4 +33,28 @@ export default class ShopingController {
 		const data = await response.json();
 		res.send(data);
 	}
+
+	async addProductToBasket(req, res) {
+		const product = await this.getProduct(req.body.id, res);
+
+		if(!product._id) {
+			res.status(400);
+			res.send();
+
+			return;
+		}
+
+		for(let i = 0; i < req.body.quantity; i++) {
+			this.cart.push(product);
+		}
+
+		res.status(204);
+		res.send();
+	}
+
+
+
+
+
+	
 }

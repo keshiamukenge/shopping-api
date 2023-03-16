@@ -1,4 +1,5 @@
 import express from 'express'
+import bodyParser from 'body-parser';
 
 import PingController from './controllers/PingController.js'
 import ShopingController from './controllers/ShopingController.js';
@@ -11,6 +12,8 @@ class App {
 		this.port = port;
 		this.app = app;
 
+		this.app.use(bodyParser.json());
+		this.app.use(bodyParser.urlencoded({ extended: true }))
 		this.pingController = new PingController();
 		this.shopingController = new ShopingController();
 
@@ -24,11 +27,12 @@ class App {
 				<h1>Shopping api</h1>
 				<h2>Endpoints :</h2>
 				<ul>
-					<li><code>/ping</code></li>
-					<li><code>/stock</code></li>
-					<li><code>/products</code></li>
-					<li><code>/products/id</code></li>
-					<li><code>/basket/checkout</code></li>
+					<li><code>[GET] /ping</code></li>
+					<li><code>[GET] /stock</code></li>
+					<li><code>[GET] /products</code></li>
+					<li><code>[GET] /products/id</code></li>
+					<li><code>[PUT] /basket</code></li>
+					<li><code>[POST] /basket/checkout</code></li>
 				</ul>
 			`)
 		})
@@ -51,6 +55,10 @@ class App {
 
 		this.app.get('/api/basket/checkout', (req, res) => {
 			this.shopingController.sendCheckout(req, res);
+		})
+
+		this.app.put('/api/basket', (req, res) => {
+			this.shopingController.addProductToBasket(req, res);
 		})
 	}
 
