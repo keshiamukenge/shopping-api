@@ -47,7 +47,19 @@ class App {
 		})
 
 		this.app.get('/api/products/:id', (req, res) => {
-			this.shopingController.getProduct(req, res);
+			this.shopingController.getProduct(req.params.id, res)
+			.then(product => {
+				if(!product?._id) {
+					res.status(400);
+					res.send();
+				}
+
+				res.send(product);
+			})
+			.catch(err => {
+				res.status(500);
+				res.send(err);
+			})
 		})
 
 		this.app.get('/api/stock', (req, res) => {
