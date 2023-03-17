@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 export default class ShopingController {
 	constructor() {
 		this.cart = [];
+		this.totalPrice = 0;
 	}
 	
 	async getStock(req, res) {
@@ -68,8 +69,11 @@ export default class ShopingController {
 				name: product.name,
 				description: product.description,
 				unitPrice: product.ean,
+				price: product.price,
 				quantity: 1
 			});
+
+			this.totalPrice += product.price;
 		}
 
 		res.status(204);
@@ -78,7 +82,7 @@ export default class ShopingController {
 	
 	async getBasket(req, res) {
 		res.send({
-			totalPrice: 0,
+			totalPrice: this.totalPrice,
 			products: this.cart,
 		});
 	}
