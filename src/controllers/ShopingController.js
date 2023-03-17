@@ -1,8 +1,7 @@
 import fetch from 'node-fetch';
 export default class ShopingController {
 	constructor() {
-		this.cart = []
-		this.ordersId = [];
+		this.cart = [];
 	}
 	
 	async getStock(req, res) {
@@ -44,8 +43,9 @@ export default class ShopingController {
 
 		if(response.status === 200) {
 			const data = await response.json();
-			this.ordersId.push(data?.id);
-			res.send(JSON.stringify(this.ordersId));
+			res.send(JSON.stringify({
+				orderId: data?.id || "",
+			}));
 
 			this.cart = [];
 		}
@@ -77,6 +77,9 @@ export default class ShopingController {
 	}
 	
 	async getBasket(req, res) {
-		res.send(this.cart);
+		res.send({
+			totalPrice: 0,
+			products: this.cart,
+		});
 	}
 }
