@@ -49,6 +49,7 @@ export default class ShopingController {
 			}));
 
 			this.cart = [];
+			this.totalPrice = 0;
 		}
 
 	}
